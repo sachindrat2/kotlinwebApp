@@ -1,15 +1,6 @@
 package org.example.project
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.backgroundColor
-import org.jetbrains.compose.web.css.borderRadius
-import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.css.fontSize
-import org.jetbrains.compose.web.css.padding
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.rgb
-import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1

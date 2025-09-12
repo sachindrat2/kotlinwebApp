@@ -25,6 +25,7 @@ kotlin {
             browser {
                 commonWebpackConfig {
                     cssSupport { enabled = true }
+                    outputPath = file("${buildDir}/distributions")
                 }
             }
             binaries.executable()
