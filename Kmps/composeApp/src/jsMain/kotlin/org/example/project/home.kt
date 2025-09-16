@@ -1,56 +1,88 @@
 package org.example.project
 
-import androidx.compose.runtime.Composable
-import org.jetbrains.compose.web.dom.A
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.H1
-import org.jetbrains.compose.web.dom.H2
-import org.jetbrains.compose.web.dom.P
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.FlexDirection
+import org.jetbrains.compose.web.css.alignItems
+import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.flexDirection
+import org.jetbrains.compose.web.css.fontSize
+import org.jetbrains.compose.web.css.marginBottom
+import org.jetbrains.compose.web.css.maxWidth
+import org.jetbrains.compose.web.css.padding
+import org.jetbrains.compose.web.css.textAlign
+import org.jetbrains.compose.web.css.backgroundColor
+import org.jetbrains.compose.web.css.color
 import org.jetbrains.compose.web.dom.*
+import androidx.compose.runtime.*
+import org.jetbrains.compose.web.css.border
+import org.jetbrains.compose.web.css.borderRadius
+import org.jetbrains.compose.web.css.cursor
+import org.jetbrains.compose.web.css.rgb
 
 @Composable
 fun HomePage() {
-    Div({ classes(AppStylesheet.page) }) {
+    // Dynamic greeting
+    Greetingz()
 
-        // 🌟 Hero Section
-        Div({ classes(AppStylesheet.hero) }) {
-            H1 { Text("🚀 Build Modern Kotlin Web Apps") }
-            P({ classes(AppStylesheet.heroText) }) {
-                Text("Compose Web lets you create responsive, smooth, and animated apps for the future.")
+    var clickCount by remember { mutableStateOf(0) }
+
+    // Main container
+    Div({
+        style {
+            display(DisplayStyle.Flex)
+            flexDirection(FlexDirection.Column)
+            alignItems(AlignItems.Center)
+            padding(48.px)
+        }
+    }) {
+        P({
+            style {
+                fontSize(18.px)
+                marginBottom(24.px)
+                textAlign("center")
+                maxWidth(600.px)
             }
-            A("#", { classes(AppStylesheet.ctaButton) }) { Text("Get Started") }
+        }) {
+            Text("Driving enterprise innovation through digital transformation, AI, and automation solutions that scale.")
         }
 
-        // ✨ Features Section (animated fade-in)
-        Div({ classes(AppStylesheet.featuresSection) }) {
-            H2({ classes(AppStylesheet.sectionTitle) }) { Text("Why Choose Kotlin Compose Web?") }
-
-            Div({ classes(AppStylesheet.featureRow) }) {
-                Feature("⚡ Fast", "Reactive and high-performance web apps with Kotlin.")
-                Feature("📱 Responsive", "Your layout adapts beautifully to any device.")
-                Feature("🌍 Cross-Platform", "Reuse code across Android, Desktop, and Web.")
+        Button({
+            style {
+                padding(12.px, 24.px)
+                fontSize(16.px)
+                cursor("pointer")
+                borderRadius(8.px)
+                border(0.px)
+                backgroundColor(rgb(41, 128, 185))
+                color(rgb(255, 255, 255))
             }
-        }
-
-        // 📖 About Section (slide-up animation)
-        Div({ classes(AppStylesheet.aboutSection) }) {
-            H2 { Text("About This App") }
-            P { Text("This demo shows how Kotlin Compose Web can power a full-featured, modern website with animations and responsive design.") }
-        }
-
-        // 🎯 Call-to-Action Section
-        Div({ classes(AppStylesheet.ctaSection) }) {
-            H2 { Text("Ready to get started?") }
-            A("#", { classes(AppStylesheet.ctaButton) }) { Text("Sign Up Now") }
+            onClick { clickCount++ }
+        }) {
+            Text(if (clickCount == 0) "Our Projects" else "Clicked $clickCount times!")
         }
     }
 }
 
 @Composable
-fun Feature(title: String, description: String) {
-    Div({ classes(AppStylesheet.feature) }) {
-        H3 { Text(title) }
-        P { Text(description) }
+fun Greetingz() {
+    // Get current hour in JS
+    val hour = js("new Date().getHours()") as Int
+    val message = when (hour) {
+        in 5..11 -> "Good Morning"
+        in 12..16 -> "Good Afternoon"
+        in 17..20 -> "Good Evening"
+        else -> "Hello"
+    }
+
+    H1({
+        style {
+            textAlign("center")
+            marginBottom(24.px)
+            fontSize(36.px)
+        }
+    }) {
+        Text("$message! Welcome to our site")
     }
 }

@@ -1,18 +1,19 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeMultiplatform)
+    kotlin("multiplatform") version "1.9.10"
+    id("org.jetbrains.compose") version "1.5.1"
+    id("com.android.application")
 }
+
 kotlin {
     androidTarget {
-        compilerOptions { jvmTarget.set(JvmTarget.JVM_11) }
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
     }
 
+    // iOS Targets
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -20,18 +21,16 @@ kotlin {
         }
     }
 
-    kotlin {
-        js(IR) {
-            browser {
-                commonWebpackConfig {
-                    cssSupport { enabled = true }
-                    outputPath = file("${buildDir}/distributions")
-                }
+    // JS Target
+    js(IR) {
+        browser {
+            commonWebpackConfig {
+                cssSupport { enabled = true }
+                outputPath = file("${buildDir}/distributions")
             }
-            binaries.executable()
         }
+        binaries.executable()
     }
-
 
     sourceSets {
         val commonMain by getting {
@@ -40,62 +39,56 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(compose.preview)
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
-                implementation(libs.androidx.lifecycle.runtimeCompose)
+                implementation("androidx.activity:activity-compose:1.9.0")
+                implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+                implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
             }
         }
 
-        kotlin {
-            sourceSets {
-                val jsMain = getByName("jsMain")
-                jsMain.dependencies {
-                    implementation(compose.runtime)
-                    implementation(compose.foundation)
-                    implementation(compose.material3)
-                    implementation(compose.components.resources)
-                    implementation(compose.components.uiToolingPreview)
-                    implementation(compose.html.core) // ✅ Modern Compose Web API
-
-
-                }
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.web.core) // uses the current Compose version
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation("org.jetbrains.compose.web:web-core:1.5.0") // <-- correct version
+                implementation("org.jetbrains.compose.web:web-svg:1.5.0")  // <-- correct version
             }
-
         }
-
 
 
         val commonTest by getting {
-            dependencies { implementation(libs.kotlin.test) }
+            dependencies {
+                implementation(kotlin("test"))
+            }
         }
     }
 }
 
-
-
 android {
     namespace = "org.example.project"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "org.example.project"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = 24
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
 
     packaging.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
 
-    buildTypes.getByName("release") { isMinifyEnabled = false }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -107,8 +100,8 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-
-dependencies {
-    debugImplementation(compose.uiTooling)
+repositories {
+    google()
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
-

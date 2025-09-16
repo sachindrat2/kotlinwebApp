@@ -1,161 +1,253 @@
 package org.example.project
-
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 
 object AppStylesheet : StyleSheet() {
-
-    // 🌟 Page container
-    val page by style {
-        property("font-family", "Arial, sans-serif")
-        margin(0.px)
-        padding(0.px)
-    }
-    val sectionTitle by style {
-        fontSize(32.px)
-        fontWeight("bold")
-        marginBottom(40.px)
-        textAlign("center")
-    }
     val content by style {
-        padding(20.px)
-        fontSize(18.px)
-
-        color(rgb(50, 50, 50))
-
-        media(mediaMaxWidth(600.px)) {
-            self style {
-                fontSize(16.px)
-                padding(10.px)
-            }
-        }
-    }
-
-    // 🏠 Header
-    val header by style {
-        backgroundColor(rgb(52, 152, 219))
-        color(Color.white)
+        width(100.percent)
+        maxWidth(1200.px)
+        margin(0.px)
         padding(16.px)
-        textAlign("center")
     }
 
-    // 🌐 Navigation
-    val nav by style {
+    val homeContainer by style {
         display(DisplayStyle.Flex)
-        justifyContent(JustifyContent.Center)
-        gap(20.px)
-        backgroundColor(rgb(41, 128, 185))
-        padding(10.px)
-
-        media(mediaMaxWidth(600.px)) {
-            self style {
-                flexDirection(FlexDirection.Column)
-                alignItems(AlignItems.Center)
-                gap(10.px)
-            }
-        }
+        flexDirection(FlexDirection.Column)
+        alignItems(AlignItems.Center)
+        padding(48.px)
     }
 
-    val navLink by style {
-        color(Color.white)
-        textDecoration("none")
-        fontWeight("bold")
-        padding(6.px, 10.px)
-        hover { color(rgb(200, 200, 200)) }
-    }
-
-    // 🎯 Hero Section
-    val hero by style {
-        padding(80.px, 20.px)
+    val homeTitle by style {
+        fontSize(36.px)
+        marginBottom(16.px)
         textAlign("center")
-        background("linear-gradient(135deg, #6DD5FA, #2980B9)")
-        color(Color.white)
     }
 
-    val heroText by style {
-        maxWidth(600.px)
-        margin(0.px, )
-    }
-
-    val ctaButton by style {
-        display(DisplayStyle.InlineBlock)
-        padding(12.px, 24.px)
-        backgroundColor(rgb(231, 76, 60))
-        color(Color.white)
-        borderRadius(30.px)
+    val homeText by style {
         fontSize(18.px)
-        fontWeight("bold")
-        textDecoration("none")
-        marginTop(16.px)
-        property("transition", "transform 0.3s ease, box-shadow 0.3s ease")
-
-        hover {
-            backgroundColor(rgb(192, 57, 43))
-            property("transform", "scale(1.05)")
-            property("box-shadow", "0px 4px 10px rgba(0,0,0,0.2)")
-        }
-    }
-
-    // ✨ Features Section
-    val featuresSection by style {
-        padding(60.px, 20.px)
-        backgroundColor(rgb(245, 245, 245))
+        marginBottom(24.px)
         textAlign("center")
-    }
-
-    val featureRow by style {
-        display(DisplayStyle.Flex)
-        justifyContent(JustifyContent.Center)
-        gap(40.px)
-        flexWrap(FlexWrap.Wrap)
+        maxWidth(600.px)
     }
 
     @OptIn(ExperimentalComposeWebApi::class)
-    val feature by style {
-        property("flex", "1 1 300px")
-        maxWidth(300.px)
-        padding(20.px)
-        backgroundColor(Color.white)
-        borderRadius(12.px)
-        property("box-shadow", "0px 4px 12px rgba(0,0,0,0.1)")
-        property("transition", "transform 0.3s ease, box-shadow 0.3s ease")
-
+    val homeButton by style {
+        padding(12.px, 24.px)
+        fontSize(16.px)
+        cursor("pointer")
+        borderRadius(8.px)
+        border(0.px)
+        backgroundColor(rgb(41, 128, 185))
+        color(rgb(255, 255, 255))
+        property("transition", "transform 0.2s ease")
         hover {
-            backgroundColor(rgb(240, 240, 240)) // subtle light grey
-            property("transform", "scale(1.02)") // optional slight scale
-            property("box-shadow", "0px 4px 8px rgba(0,0,0,0.1)")
-
-        }
-
-    }
-
-    // 📖 About Section
-    val aboutSection by style {
-        padding(60.px, 20.px)
-        textAlign("center")
-
-        media(mediaMaxWidth(600.px)) {
-            self style {
-                padding(20.px)
-                width(100.percent)
-            }
+            transform { scale(1.05) }
         }
     }
 
-    // 🎯 Call-to-Action Section
-    val ctaSection by style {
-        padding(80.px, 20.px)
+    // AboutPage container
+    val aboutContainer by style {
+        padding(120.px, 24.px, 40.px, 24.px)
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+        alignItems(AlignItems.Center)
+        backgroundColor(rgb(245, 246, 250))
+        color(rgb(30, 30, 30))
+    }
+
+    val aboutTitle by style {
+        fontSize(28.px)
+        fontWeight("bold")
+        marginBottom(16.px)
         textAlign("center")
-        background("linear-gradient(135deg, #ff6a00, #ee0979)")
-        color(Color.white)
+    }
+
+    val aboutText by style {
+        fontSize(16.px)
+        maxWidth(700.px)
+        property("line-height", "1.5")
+        textAlign("center")
+        marginBottom(32.px)
+    }
+
+    // Card container
+    val cardContainer by style {
+        display(DisplayStyle.Flex)
+        flexWrap(FlexWrap.Wrap)
+        justifyContent(JustifyContent.Center)
+        gap(24.px)
+    }
+
+    // Individual card
+    val card by style {
+        backgroundColor(Color.white)
+        padding(24.px)
         borderRadius(12.px)
+        property("box-shadow", "0px 2px 8px rgba(0,0,0,0.1)")
+        width(220.px)
+        textAlign("center")
+        cursor("default")
+        property("transition", "box-shadow 0.3s")
+
+        selector(":hover") style {
+            property("box-shadow", "0px 4px 12px rgba(0,0,0,0.15)")
+        }
     }
 
-    // 📄 Footer
-    val footer by style {
-        backgroundColor(rgb(52, 73, 94))
-        color(Color.white)
-        padding(10.px)
+    val cardTitle by style {
+        marginBottom(8.px)
+        fontWeight("bold")
+    }
+
+    val cardText by style {
+        fontSize(14.px)
+        property("line-height", "1.5")
+    }
+    val projectCard by style {
+        backgroundColor(Color.white)
+        padding(24.px)
+        borderRadius(12.px)
+        property("box-shadow", "0px 2px 8px rgba(0,0,0,0.1)")
+        width(260.px)
         textAlign("center")
+        cursor("default")
+        property("transition", "box-shadow 0.3s") // smooth hover effect
+
+        selector(":hover") style {
+            property("box-shadow", "0px 4px 12px rgba(0,0,0,0.15)")
+        }
+    }
+
+
+    val projectCardTitle by style {
+        marginBottom(12.px)
+        fontSize(18.px)
+    }
+
+    val projectCardDescription by style {
+        fontSize(14.px)
+        property("line-height", "1.5")
+    }
+    val buttonStyle by style {
+        padding(12.px, 24.px)
+        fontSize(16.px)
+        fontWeight("bold")
+        backgroundColor(rgb(236, 240, 241))
+        color(rgb(52, 73, 94))
+        border(0.px)
+        borderRadius(8.px)
+        cursor("pointer")
+        property(
+            value = "background-color 0.3s ease",
+            propertyName =  "background-color",
+        )
+    }
+
+    val buttonHover by style {
+        selector(":hover") style {
+            backgroundColor(rgb(189, 195, 199))
+        }
+    }
+    val page by style {
+        property("font-family", "Inter, Arial, sans-serif")
+        margin(0.px)
+        padding(0.px)
+        backgroundColor(rgb(245, 246, 250))
+        color(rgb(30, 30, 30))
+    }
+
+    // Navbar
+    val navbar by style {
+        display(DisplayStyle.Flex)
+        justifyContent(JustifyContent.SpaceBetween)
+        alignItems(AlignItems.Center)
+        padding(16.px)
+        backgroundColor(rgb(40, 55, 71))
+        color(Color.white)
+        position(Position.Fixed)
+        top(0.px)
+        left(0.px)
+        right(0.px)
+        property("z-index", "1000")
+    }
+
+    val logo by style {
+        fontSize(20.px)
+        fontWeight("bold")
+        color(Color.white)
+    }
+
+    val navList by style {
+        display(DisplayStyle.Flex)
+        listStyle("none")
+        margin(0.px)
+        padding(0.px)
+    }
+
+    val navItem by style {
+        marginLeft(24.px)
+        cursor("pointer")
+        color(Color.white)
+        fontSize(14.px)
+    }
+
+    // Hover for navItem
+    init {
+        selector(":hover") style {
+            color(rgb(200, 200, 200))
+        }
+    }
+
+    // Hamburger (hidden on desktop)
+    val hamburger by style {
+        backgroundColor(Color.transparent)
+        border(0.px)
+        fontSize(24.px)
+        color(Color.white)
+        cursor("pointer")
+        display(DisplayStyle.None)
+
+        media(mediaMaxWidth(768.px)) {
+            display(DisplayStyle.Block)
+        }
+    }
+
+    // Mobile Menu Drawer
+    val mobileMenu by style {
+        display(DisplayStyle.None)
+        backgroundColor(rgb(52, 73, 94))
+        padding(16.px)
+        position(Position.Absolute)
+        top(60.px)
+        right(0.px)
+        left(0.px)
+
+        media(mediaMaxWidth(768.px)) {
+            // Use property() instead of display()
+            property("display", "block")
+        }
+    }
+
+    val mobileNavItem by style {
+        padding(12.px)
+        color(Color.white)
+        cursor("pointer")
+        fontSize(16.px)
+        property("border-bottom", "1px solid rgb(70,90,110)")
+
+        // Hover effect
+        selector(":hover") style {
+            backgroundColor(rgb(70, 90, 110))
+        }
+    }
+
+
+    // Footer
+    val footer by style {
+        textAlign("center")
+        padding(16.px)
+        backgroundColor(rgb(230, 233, 239))
+        marginTop(48.px)
+        fontSize(14.px)
     }
 }
