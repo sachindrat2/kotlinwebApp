@@ -37,12 +37,20 @@ fun DashboardPage(
         Div({
             style {
                 width(200.px)
-                backgroundColor(rgb(45, 45, 45))
+                backgroundColor(rgba(45, 45, 45, 0.85))  // dark gray with slight transparency
+                property("backdrop-filter", "blur(8px) saturate(150%)")
+                property("-webkit-backdrop-filter", "blur(8px) saturate(150%)")
+                borderRadius(12.px)
+                border(1.px, LineStyle.Solid, rgba(255, 255, 255, 0.1))
+                property("box-shadow", "0 4px 16px rgba(0, 0, 0, 0.2)")
                 color(Color.white)
                 padding(16.px)
                 display(DisplayStyle.Flex)
                 flexDirection(FlexDirection.Column)
+                alignItems(AlignItems.Stretch)
+                gap(12.px)
             }
+
         }) {
             // App Icon
             Div({
@@ -68,8 +76,8 @@ fun DashboardPage(
 
             menuItems.forEach { (section, label) ->
                 Div({
-                    classes(AppStylesheet.sidebarItem)
-                    if (currentSection == section) classes(AppStylesheet.sidebarItemSelected)
+                    classes(AppStylesheet.menuButton)
+                    if (currentSection == section) classes(AppStylesheet.menuButtonSelected)
                     onClick { currentSection = section }
                     style {
                         padding(8.px, 12.px)
@@ -79,6 +87,8 @@ fun DashboardPage(
                     }
                 }) { Text(label) }
             }
+
+
 
             // Logout button
             Button({

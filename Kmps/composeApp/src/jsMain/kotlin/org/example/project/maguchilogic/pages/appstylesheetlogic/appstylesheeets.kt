@@ -4,6 +4,7 @@ import org.jetbrains.compose.web.attributes.AutoComplete.Companion.on
 import org.jetbrains.compose.web.css.*
 
 object AppStylesheet : StyleSheet() {
+
     val content by style {
         padding(16.px)
         margin(16.px)
@@ -57,15 +58,26 @@ object AppStylesheet : StyleSheet() {
         width(200.px)
     }
 
+
+    val loginButtonColor = rgb(50, 205, 50)          // green
+    val loginButtonHoverColor = rgb(60, 220, 60)     // lighter green
+
     val loginButton by style {
         padding(8.px, 16.px)
         margin(8.px)
-        backgroundColor(rgb(33, 150, 243))
-        color(Color.white)
+        backgroundColor(loginButtonColor)  // CSSColorValue
+        color(Color.white)                 // Text stays white
         borderRadius(4.px)
         property("border-style", "none")
         cursor("pointer")
+        property("transition", "all 0.3s ease")
+
+        hover {
+            backgroundColor(loginButtonHoverColor)
+            color(loginButtonColor)
+        }
     }
+
 
     val dashboard by style {
         display(DisplayStyle.Flex)
@@ -95,26 +107,38 @@ object AppStylesheet : StyleSheet() {
         display(DisplayStyle.Flex)
         justifyContent(JustifyContent.Start)
         fontWeight("normal")
-        color(rgb(50, 50, 50))
-        property("background", "rgba(255, 255, 255, 0.2)")
+        color(Color.white) // white text by default for unselected
+        backgroundColor(rgb(33, 150, 243)) // blue background for unselected
+        property("transition", "all 0.3s ease")
+        property("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.1)")
         property("backdrop-filter", "blur(10px)")
         property("-webkit-backdrop-filter", "blur(10px)")
-        property("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.1)")
-        property("transition", "all 0.3s ease")
 
         hover {
-            property("background", "rgba(255, 255, 255, 0.35)")
-            property("color", rgb(30, 30, 30))
-            property("box-shadow", "0 12px 40px 0 rgba(31, 38, 135, 0.2)")
+            backgroundColor(rgb(30, 136, 229)) // slightly darker blue on hover
         }
     }
 
     val sidebarItemSelected by style {
         self {
-            property("background-color", "rgb(70, 130, 180)")
-            property("color", "white")
+            backgroundColor(rgb(0, 180, 0)) // slightly lighter green
+            color(Color.white) // text stays white
             fontWeight("bold")
+            property("transition", "all 0.3s ease")
+
+            hover {
+                backgroundColor(rgb(0, 200, 0)) // slightly lighter green on hover
+            }
         }
+    }
+
+
+    // --- NEW: universal selected style ---
+    val selected by style {
+        backgroundColor(rgb(0, 128, 0)) // green
+        color(Color.white)
+        fontWeight("bold")
+        property("transition", "all 0.3s ease")
     }
 
     val mainContent by style {
@@ -219,9 +243,71 @@ object AppStylesheet : StyleSheet() {
         property("border-bottom", "1px solid rgb(150, 150, 150)")
     }
 
+
+    // Menu / Dashboard / Warehouse buttons
+
+    // Menu / Dashboard / Warehouse buttons
+    // Menu / Dashboard / Warehouse buttons
+    val menuButton by style {
+        padding(12.px)
+        width(90.percent)
+        borderRadius(8.px)
+        border(0.px)
+        color(Color.white)
+        fontWeight("bold")
+        cursor("pointer")
+        property("transition", "all 0.4s ease")
+        backgroundImage("linear-gradient(90deg, #4a90e2, #50c3f7)") // unselected blue gradient
+
+        self + hover style {
+            backgroundColor(rgba(40, 167, 79, 0.9)) // green on hover
+            backgroundImage("none")
+            color(Color.white)
+        }
+    }
+
+    // Selected / active menu button
+    val menuButtonSelected by style {
+        backgroundColor(rgba(40, 167, 79, 0.9)) // fixed green
+        backgroundImage("none")                  // important to remove gradient
+        color(Color.white)
+        fontWeight("bold")
+        property("transition", "all 0.3s ease")
+
+        // Hover should not change anything for selected button
+        self + hover style {
+            backgroundColor(rgba(40, 167, 79, 0.9)) // same green
+            backgroundImage("none")
+            color(Color.white)
+        }
+    }
     val tableRow by style {
         padding(8.px)
-        property("border-bottom", "1px solid rgb(220, 220, 220)")
+        property("border-bottom", "1px solid rgba(220,220,220,1)")
+
+        hover {
+            backgroundColor(rgba(245, 245, 245, 0.6))
+        }
     }
+    val warehouseButton by style {
+        padding(8.px, 16.px)
+        borderRadius(6.px)
+        border(0.px)
+        backgroundColor(rgba(0, 180, 0, 1.0)) // solid green
+        color(Color.white)                    // text white
+        cursor("pointer")
+        fontWeight("bold")
+        property("transition", "all 0.3s ease")
+
+        self + hover style {
+            backgroundColor(rgba(0, 180, 0, 1.0)) // same green on hover
+            color(Color.white)
+        }
+    }
+
 }
+
+
+
+
 
