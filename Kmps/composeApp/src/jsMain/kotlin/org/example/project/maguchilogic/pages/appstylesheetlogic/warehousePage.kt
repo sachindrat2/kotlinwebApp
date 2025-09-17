@@ -24,24 +24,35 @@ import org.jetbrains.compose.web.dom.*
 fun WarehousePage(onBack: () -> Unit) {
     Style(AppStylesheet)
 
-    var items by remember { mutableStateOf(listOf<WarehouseItem>()) }
+    // Dynamic list of items
+    val items = remember { mutableStateListOf<WarehouseItem>() }
+
+    // Input fields
     var name by remember { mutableStateOf("") }
-    var quantity by remember { mutableStateOf("") }
+    var quantity by remember { mutableStateOf("") } // keep as String for input
     var location by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
+
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) { items = WarehouseApi.getItems() }
+    // Load items from backend on first composition
+    LaunchedEffect(Unit) {
+        val fetchedItems = WarehouseApi.getItems()
+        items.clear()
+        items.addAll(fetchedItems)
+    }
 
     Div({ classes(AppStylesheet.content) }) {
         H3 { Text("Warehouse Items") }
 
+        // Back button
         Button({
             classes(AppStylesheet.backButton)
             onClick { onBack() }
             style { marginBottom(16.px) }
         }) { Text("Back to Dashboard") }
 
+        // Input fields for new item
         Div({
             style {
                 marginBottom(16.px)
@@ -50,11 +61,31 @@ fun WarehousePage(onBack: () -> Unit) {
                 gap(8.px)
             }
         }) {
-            Input(InputType.Text, attrs = { placeholder("Item Name"); value(name); onInput { name = it.value }; style { width(150.px)} })
-            Input(InputType.Number, attrs = { placeholder("Quantity"); value(quantity); onInput { quantity = it.value?.toInt().toString() }; style { width(100.px) } })
-            Input(InputType.Date, attrs = { value(date); onInput { date = it.value }; style { width(150.px )} })
-            Input(InputType.Text, attrs = { placeholder("Location"); value(location); onInput { location = it.value }; style { width(150.px )} })
+            Input(InputType.Text, attrs = {
+                placeholder("Item Name")
+                value(name)
+                onInput { name = it.value }
+                style { width(150.px) }
+            })
+            Input(InputType.Number, attrs = {
+                placeholder("Quantity")
+                value(quantity)
+                onInput { quantity = it.value.toString() } // store as String
+                style { width(100.px) }
+            })
+            Input(InputType.Date, attrs = {
+                value(date)
+                onInput { date = it.value }
+                style { width(150.px) }
+            })
+            Input(InputType.Text, attrs = {
+                placeholder("Location")
+                value(location)
+                onInput { location = it.value }
+                style { width(150.px) }
+            })
 
+            // Add item button
             Button({
                 classes(AppStylesheet.loginButton)
                 style { height(40.px) }
@@ -68,20 +99,30 @@ fun WarehousePage(onBack: () -> Unit) {
                             location = location
                         )
                         scope.launch {
-                            WarehouseApi.addItem(newItem)
-                            items = items + newItem
+                            WarehouseApi.addItem(newItem) // add to backend
+                            items.add(newItem) // update UI
                         }
-                        name = ""; quantity = ""; location = ""; date = ""
+
+                        // Clear input fields
+                        name = ""
+                        quantity = ""
+                        location = ""
+                        date = ""
                     }
                 }
             }) { Text("Add Item") }
         }
 
+        // Table of items
         Table {
             Thead {
                 Tr {
-                    Th { Text("ID") }; Th { Text("Name") }; Th { Text("Quantity") }
-                    Th { Text("Expiry Date") }; Th { Text("Location") }; Th { Text("Actions") }
+                    Th { Text("ID") }
+                    Th { Text("Name") }
+                    Th { Text("Quantity") }
+                    Th { Text("Expiry Date") }
+                    Th { Text("Location") }
+                    Th { Text("Actions") }
                 }
             }
             Tbody {
@@ -95,7 +136,12 @@ fun WarehousePage(onBack: () -> Unit) {
                         Td {
                             Button({
                                 classes(AppStylesheet.loginButton)
-                                onClick { scope.launch { WarehouseApi.deleteItem(item.id); items = items.filter { it.id != item.id } } }
+                                onClick {
+                                    scope.launch {
+                                        WarehouseApi.deleteItem(item.id) // delete from backend
+                                        items.remove(item) // remove from UI
+                                    }
+                                }
                             }) { Text("Delete") }
                         }
                     }
@@ -104,3 +150,7 @@ fun WarehousePage(onBack: () -> Unit) {
         }
     }
 }
+
+
+
+

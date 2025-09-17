@@ -1,7 +1,6 @@
 package org.example.project.maguchilogic.pages
 
 import androidx.compose.runtime.*
-import org.example.project.AppStylesheet.attr
 import org.jetbrains.compose.web.css.Style
 import org.example.project.maguchilogic.pages.appstylesheetlogic.AppStylesheet
 import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi

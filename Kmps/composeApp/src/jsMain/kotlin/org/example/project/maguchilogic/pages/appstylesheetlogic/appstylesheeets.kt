@@ -198,5 +198,22 @@ object AppStylesheet : StyleSheet() {
         fontWeight("bold")
         color(Color.black)
     }
+    val appIcon by style {
+        width(120.px)
+        width(120.px)
+        height(120.px)
+        property("transition", "transform 0.3s ease")
+        hover { property("transform", "scale(1.1)") }
+    }
+    val tableHeader by style {
+        backgroundColor(rgb(200, 200, 200))
+        fontWeight("bold")
+        padding(8.px)
+        property("border-bottom", "1px solid rgb(150, 150, 150)")
+    }
 
+    val tableRow by style {
+        padding(8.px)
+        property("border-bottom", "1px solid rgb(220, 220, 220)")
+    }
 }

@@ -58,6 +58,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation("org.jetbrains.compose.web:web-core:1.5.0") // <-- correct version
                 implementation("org.jetbrains.compose.web:web-svg:1.5.0")  // <-- correct version
+
             }
         }
 

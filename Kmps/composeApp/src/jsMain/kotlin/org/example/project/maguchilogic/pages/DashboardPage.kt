@@ -1,6 +1,7 @@
 package org.example.project.maguchilogic.pages
 
 import androidx.compose.runtime.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.example.project.AppStylesheet.hover
 import org.example.project.maguchilogic.pages.appstylesheetlogic.AppStylesheet
@@ -41,40 +42,52 @@ fun DashboardPage(
                 padding(16.px)
                 display(DisplayStyle.Flex)
                 flexDirection(FlexDirection.Column)
-                justifyContent(JustifyContent.SpaceBetween)
             }
         }) {
-            Div {
-                H3({
-                    style { marginBottom(24.px); fontSize(20.px) }
-                }) { Text("MaguchiLogic") }
-
-                val menuItems = listOf(
-                    "dashboard" to "Dashboard",
-                    "warehouse" to "Warehouse",
-                    "reports" to "Reports",
-                    "settings" to "Settings"
-                )
-
-                menuItems.forEach { (section, label) ->
-                    Div({
-                        classes(AppStylesheet.sidebarItem)
-                        if (currentSection == section) classes(AppStylesheet.sidebarItemSelected)
-                        onClick { currentSection = section }
-                    }) {
-                        Text(label)
-                    }
-
+            // App Icon
+            Div({
+                style {
+                    display(DisplayStyle.Flex)
+                    justifyContent(JustifyContent.Center)
+                    marginBottom(12.px) // reduce space
                 }
+            }) {
+                Img(src = "/images/appIcon.png", attrs = {
+                    classes(AppStylesheet.appIcon)
+
+                })
             }
 
+            // Menu
+            val menuItems = listOf(
+                "dashboard" to "Dashboard",
+                "warehouse" to "Warehouse",
+                "reports" to "Reports",
+                "settings" to "Settings"
+            )
+
+            menuItems.forEach { (section, label) ->
+                Div({
+                    classes(AppStylesheet.sidebarItem)
+                    if (currentSection == section) classes(AppStylesheet.sidebarItemSelected)
+                    onClick { currentSection = section }
+                    style {
+                        padding(8.px, 12.px)
+                        cursor("pointer")
+                        borderRadius(6.px)
+                        marginBottom(8.px)
+                    }
+                }) { Text(label) }
+            }
+
+            // Logout button
             Button({
                 onClick { onLogout() }
                 style {
                     marginTop(24.px)
                     backgroundColor(rgb(200, 50, 50))
                     color(Color.white)
-                    border(0.px)
+                    property("border", "none")
                     padding(8.px, 16.px)
                     borderRadius(6.px)
                     cursor("pointer")
@@ -83,7 +96,7 @@ fun DashboardPage(
             }) { Text("Logout") }
         }
 
-        // Main Content
+        // Main content
         Div({
             style {
                 property("flex", "1.0")
@@ -99,36 +112,35 @@ fun DashboardPage(
                 warehouseItems = warehouseItems,
                 onBackWarehouse = { currentSection = "dashboard" },
                 onBackReports = { currentSection = "dashboard" },
-                onBackSettings = { currentSection = "dashboard" },
-
+                onBackSettings = { currentSection = "dashboard" }
             )
         }
     }
 }
 
-
-
-
-@OptIn(ExperimentalComposeWebSvgApi::class)
 @Composable
 fun AnimatedSection(
     section: String,
     warehouseItems: List<WarehouseItem>,
     onBackWarehouse: () -> Unit,
     onBackReports: () -> Unit,
-    onBackSettings: () -> Unit,
-
+    onBackSettings: () -> Unit
 ) {
     var visible by remember { mutableStateOf(false) }
-    val tooltipText = remember { mutableStateOf("") }
-    val tooltipX = remember { mutableStateOf(0) }
-    val tooltipY = remember { mutableStateOf(0) }
+    var isDashboardLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(1000) // simulate data fetching
+        isDashboardLoading = false
+    }
+
 
     LaunchedEffect(section, warehouseItems.size) {
         visible = false
-        kotlinx.coroutines.delay(50)
+        delay(50)
         visible = true
     }
+
     Div({
         style {
             opacity(if (visible) 1.0 else 0.0)
@@ -136,9 +148,12 @@ fun AnimatedSection(
         }
     }) {
         when (section) {
-            "dashboard" -> DashboardMainContent()
-            "warehouse" -> WarehousePage(onBack = onBackWarehouse)
-            "reports" -> ReportsPage(onBack = onBackReports)
+            "dashboard" -> DashboardMainContent(
+                warehouseItems,
+                isLoading =isDashboardLoading
+            )
+            "warehouse" -> WarehousePage(onBack = onBackWarehouse, )
+            "reports" -> ReportsPage(onBack = onBackReports,)
             "settings" -> SettingsPage(onLogout = onBackSettings, onBack = onBackSettings)
         }
     }
