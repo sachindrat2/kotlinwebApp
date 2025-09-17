@@ -52,7 +52,7 @@ fun DashboardPage(
                     marginBottom(12.px) // reduce space
                 }
             }) {
-                Img(src = "/images/appIcon.png", attrs = {
+                Img(src = "images/appIcon.png", attrs = {
                     classes(AppStylesheet.appIcon)
 
                 })

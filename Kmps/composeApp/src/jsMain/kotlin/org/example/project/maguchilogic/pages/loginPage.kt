@@ -21,7 +21,7 @@ fun LoginPage(onLoginSuccess: () -> Unit) {
     Div({ classes(LoginStylesheet.page) }) {
         Div({ classes(LoginStylesheet.loginCard) }) {
 
-            Img(src = "/images/appIcon.png", attrs = { classes(LoginStylesheet.appIcon) })
+            Img(src = "images/appIcon.png", attrs = { classes(LoginStylesheet.appIcon) })
 
 
 
