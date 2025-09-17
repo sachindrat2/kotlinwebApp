@@ -9,8 +9,8 @@ import org.jetbrains.compose.web.css.*
 object LoginStylesheet : StyleSheet() {
 
     val page by style {
-        // Dark blue to black gradient background
-        backgroundImage("linear-gradient(135deg, #0f2027, #203a43, #2c5364)")
+        // Lighter gradient background
+        backgroundImage("linear-gradient(135deg, #1c2a38, #2a3a4d, #3b4f65)")
         display(DisplayStyle.Flex)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
@@ -20,45 +20,45 @@ object LoginStylesheet : StyleSheet() {
     }
 
     val loginCard by style {
-        backgroundColor(rgba(0, 0, 0, 0.4)) // dark frosted glass
-        property("backdrop-filter", "blur(16px) saturate(180%)")
-        borderRadius(20.px)
-        border(1.px, LineStyle.Solid, rgba(255, 255, 255, 0.1))
-        property("box-shadow", "0 8px 32px rgba(0, 0, 0, 0.3)")
+        backgroundColor(rgba(255, 255, 255, 0.15)) // lighter frosted glass
+        property("backdrop-filter", "blur(12px) saturate(150%)")
+        borderRadius(16.px)
+        border(1.px, LineStyle.Solid, rgba(255, 255, 255, 0.2))
+        property("box-shadow", "0 4px 24px rgba(0, 0, 0, 0.15)")
 
-        padding(32.px)
-        width(340.px)
+        padding(24.px)
+        width(300.px) // reduced width
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Column)
         alignItems(AlignItems.Stretch)
-        gap(20.px)
+        gap(16.px)
         color(Color.white)
     }
 
     val appIcon by style {
-        width(120.px)
-        height(120.px)
-        marginBottom(12.px)
+        width(100.px) // slightly smaller
+        height(100.px)
+        marginBottom(10.px)
         alignSelf(AlignSelf.Center)
     }
 
     val loginInput by style {
-        padding(12.px)
-        borderRadius(10.px)
+        padding(10.px)
+        borderRadius(8.px)
         border(1.px, LineStyle.Solid, rgba(255, 255, 255, 0.2))
-        backgroundColor(rgba(20, 30, 50, 0.6)) // dark blue tinted input
+        backgroundColor(rgba(255, 255, 255, 0.1)) // lighter tinted input
         color(Color.white)
         width(100.percent)
         property("box-sizing", "border-box")
-        property("::placeholder", "color: rgba(200,200,200,0.5)")
+        property("::placeholder", "color: rgba(255,255,255,0.6)")
     }
 
     val loginButton by style {
-        padding(14.px)
+        padding(12.px)
         width(100.percent)
-        borderRadius(10.px)
+        borderRadius(8.px)
         border(0.px)
-        backgroundImage("linear-gradient(90deg, #1c1c2b, #2a2a4d)") // dark gradient
+        backgroundImage("linear-gradient(90deg, #4a90e2, #50c3f7)") // lighter gradient
         color(Color.white)
         fontWeight("bold")
         cursor("pointer")
@@ -75,7 +75,7 @@ object LoginStylesheet : StyleSheet() {
         right(8.px)
         top(50.percent)
         property("transform", "translateY(-50%)")
-        backgroundColor(rgba(50, 50, 70, 0.6))
+        backgroundColor(rgba(100, 100, 120, 0.4)) // lighter toggle button
         border(0.px)
         borderRadius(6.px)
         padding(4.px, 8.px)
@@ -91,10 +91,11 @@ object LoginStylesheet : StyleSheet() {
 
     val errorText by style {
         color(rgb(220, 53, 69)) // red for errors
-        marginBottom(8.px)
-        fontSize(14.px)
+        marginBottom(6.px)
+        fontSize(13.px)
         textAlign("center")
     }
 }
+
 
 
