@@ -4,6 +4,31 @@ import org.jetbrains.compose.web.attributes.AutoComplete.Companion.on
 import org.jetbrains.compose.web.css.*
 
 object AppStylesheet : StyleSheet() {
+    val content by style {
+        padding(16.px)
+        margin(16.px)
+        borderRadius(12.px)
+        property("background", "rgba(255, 255, 255, 0.2)")
+        property("backdrop-filter", "blur(10px)")
+        property("-webkit-backdrop-filter", "blur(10px)")
+        property("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.1)")
+        property("transition", "all 0.3s ease")
+
+        hover {
+            property("background", "rgba(255, 255, 255, 0.35)")
+            property("box-shadow", "0 12px 40px 0 rgba(31, 38, 135, 0.2)")
+        }
+    }
+
+    val userCard by style {
+        padding(12.px)
+        margin(12.px, 0.px)
+        borderRadius(8.px)
+        property("background", "rgba(255, 255, 255, 0.2)")
+        property("backdrop-filter", "blur(8px)")
+        property("-webkit-backdrop-filter", "blur(8px)")
+        property("box-shadow", "0 4px 16px 0 rgba(31, 38, 135, 0.05)")
+    }
 
     val page by style {
         padding(24.px)
@@ -11,10 +36,11 @@ object AppStylesheet : StyleSheet() {
         backgroundColor(rgb(245, 245, 245))
         minHeight(100.vh)
     }
+
     val loginCard by style {
         padding(32.px)
         width(320.px)
-        margin(64.px, )
+        margin(64.px)
         backgroundColor(Color.white)
         borderRadius(12.px)
         property("box-shadow", "0px 4px 16px rgba(0, 0, 0, 0.15)")
@@ -23,14 +49,6 @@ object AppStylesheet : StyleSheet() {
         hover {
             property("box-shadow", "0px 6px 20px rgba(0, 0, 0, 0.25)")
         }
-    }
-
-    val content by style {
-        padding(16.px)
-        margin(16.px)
-        backgroundColor(Color.white)
-        borderRadius(8.px)
-        property("box-shadow", "0px 2px 8px rgba(0,0,0,0.1)")
     }
 
     val loginInput by style {
@@ -49,12 +67,6 @@ object AppStylesheet : StyleSheet() {
         cursor("pointer")
     }
 
-    val userCard by style {
-        padding(12.px)
-        margin(12.px, 0.px)
-        border(1.px, LineStyle.Solid, rgb(200, 200, 200))
-        borderRadius(4.px)
-    }
     val dashboard by style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
@@ -63,25 +75,45 @@ object AppStylesheet : StyleSheet() {
 
     val sidebar by style {
         width(240.px)
-        backgroundColor(rgb(33, 150, 243))
-        color(Color.white)
+        backgroundColor(rgb(245, 245, 245)) // Light menu background like login page
+        color(rgb(50, 50, 50))
         padding(24.px)
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Column)
         property("transition", "all 0.3s ease")
+        property("backdrop-filter", "blur(10px)")
+        property("-webkit-backdrop-filter", "blur(10px)")
+        property("border-radius", "12px")
+        property("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.05)")
     }
 
-    val navLink by style {
-        padding(12.px)
-        margin(4.px, 0.px)
-        color(Color.white)
-        textDecoration("none")
-        borderRadius(6.px)
+    val sidebarItem by style {
+        marginTop(12.px)
+        cursor("pointer")
+        padding(10.px)
+        borderRadius(12.px)
+        display(DisplayStyle.Flex)
+        justifyContent(JustifyContent.Start)
+        fontWeight("normal")
+        color(rgb(50, 50, 50))
+        property("background", "rgba(255, 255, 255, 0.2)")
+        property("backdrop-filter", "blur(10px)")
+        property("-webkit-backdrop-filter", "blur(10px)")
+        property("box-shadow", "0 8px 32px 0 rgba(31, 38, 135, 0.1)")
         property("transition", "all 0.3s ease")
 
         hover {
-            backgroundColor(rgb(30, 136, 229))
-            cursor("pointer")
+            property("background", "rgba(255, 255, 255, 0.35)")
+            property("color", rgb(30, 30, 30))
+            property("box-shadow", "0 12px 40px 0 rgba(31, 38, 135, 0.2)")
+        }
+    }
+
+    val sidebarItemSelected by style {
+        self {
+            property("background-color", "rgb(70, 130, 180)")
+            property("color", "white")
+            fontWeight("bold")
         }
     }
 
@@ -93,7 +125,7 @@ object AppStylesheet : StyleSheet() {
 
     val backButton by style {
         padding(8.px, 16.px)
-        backgroundColor(rgb(200, 200, 200))
+        backgroundColor(rgb(245, 245, 245)) // Light color like login page
         borderRadius(6.px)
         color(Color.black)
         property("border-style", "none")
@@ -101,49 +133,23 @@ object AppStylesheet : StyleSheet() {
         property("transition", "all 0.3s ease")
 
         hover {
-            backgroundColor(rgb(169, 169, 169))
+            backgroundColor(rgb(230, 230, 230))
         }
     }
+
     val settingsInput by style {
         padding(8.px)
         width(250.px)
         borderRadius(6.px)
         border(1.px, LineStyle.Solid, rgb(200, 200, 200))
-
         property("transition", "all 0.3s ease")
         property("border-color", rgb(200, 200, 200))
 
-        self  {
+        self {
             property("border-color", rgb(100, 149, 237))
         }
     }
 
-
-    val sidebarItem by style {
-        marginTop(12.px)
-        cursor("pointer")
-        padding(10.px)
-        borderRadius(6.px)
-        display(DisplayStyle.Flex)
-        justifyContent(JustifyContent.Start)
-        fontWeight("normal")
-        color(rgb(200, 200, 200))
-        property("transition", "all 0.3s ease")
-        property("box-shadow", "0px 2px 6px rgba(0, 0, 0, 0.1)")
-
-        hover {
-            property("background-color", "rgb(70, 130, 180)")
-            property("color", "white")
-        }
-    }
-
-    val sidebarItemSelected by style {
-        self {
-            property("background-color", "rgb(70, 130, 180)")
-            property("color", "white")
-            fontWeight("bold")
-        }
-    }
     val stockCard by style {
         width(150.px)
         height(100.px)
@@ -170,6 +176,7 @@ object AppStylesheet : StyleSheet() {
     val stockCount by style {
         margin(0.px)
     }
+
     val barContainer by style {
         display(DisplayStyle.Flex)
         justifyContent(JustifyContent.SpaceEvenly)
@@ -189,7 +196,6 @@ object AppStylesheet : StyleSheet() {
         width(40.px)
         borderRadius(6.px)
         property("box-shadow", "2px 2px 6px gray")
-
     }
 
     val barLabel by style {
@@ -198,13 +204,14 @@ object AppStylesheet : StyleSheet() {
         fontWeight("bold")
         color(Color.black)
     }
+
     val appIcon by style {
-        width(120.px)
         width(120.px)
         height(120.px)
         property("transition", "transform 0.3s ease")
         hover { property("transform", "scale(1.1)") }
     }
+
     val tableHeader by style {
         backgroundColor(rgb(200, 200, 200))
         fontWeight("bold")
@@ -217,3 +224,4 @@ object AppStylesheet : StyleSheet() {
         property("border-bottom", "1px solid rgb(220, 220, 220)")
     }
 }
+

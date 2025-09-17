@@ -21,11 +21,10 @@ fun LoginPage(onLoginSuccess: () -> Unit) {
     Div({ classes(LoginStylesheet.page) }) {
         Div({ classes(LoginStylesheet.loginCard) }) {
 
-            Img(src = "images/appicon.png", attrs = { classes(LoginStylesheet.appIcon) })
-
-
-
-
+            Img(
+                src = "/images/appicon.png",  // start with "/" to reference root of built resources
+                attrs = { classes(LoginStylesheet.appIcon) }
+            )
             if (error != null) {
                 Div({ classes(LoginStylesheet.errorText) }) { Text(error!!) }
             }
