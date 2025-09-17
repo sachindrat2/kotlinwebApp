@@ -64,7 +64,7 @@ object LoginStylesheet : StyleSheet() {
         cursor("pointer")
         property("transition", "all 0.4s ease")
         self + hover style {
-            backgroundColor(rgb(40, 167, 69)) // green on hover
+            backgroundColor(rgb(40, 167, 79)) // green on hover
             backgroundImage("none")
             color(Color.white)
         }
