@@ -1,7 +1,6 @@
-package org.example.dxteam
+package org.example.project
 
 import androidx.compose.runtime.Composable
-import org.example.project.AppStylesheet
 import org.jetbrains.compose.web.dom.*
 import org.jetbrains.compose.web.css.*
 

@@ -1,6 +1,7 @@
 package org.example.project.maguchilogic.pages
 
 import androidx.compose.runtime.*
+import kotlinx.browser.window
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.example.project.AppStylesheet.hover
@@ -15,7 +16,8 @@ import org.jetbrains.compose.web.svg.*
 @Composable
 fun DashboardPage(
     warehouseItems: List<WarehouseItem>,
-    onNavigateInventory: () -> Unit,
+    onNavigateDashboard: () -> Unit,
+
     onNavigateWarehouse: () -> Unit,
     onNavigateReports: () -> Unit,
     onNavigateSettings: () -> Unit,
@@ -37,7 +39,7 @@ fun DashboardPage(
         Div({
             style {
                 width(200.px)
-                backgroundColor(rgba(45, 45, 45, 0.85))  // dark gray with slight transparency
+                backgroundColor(rgba(45, 45, 45, 0.85))
                 property("backdrop-filter", "blur(8px) saturate(150%)")
                 property("-webkit-backdrop-filter", "blur(8px) saturate(150%)")
                 borderRadius(12.px)
@@ -57,12 +59,11 @@ fun DashboardPage(
                 style {
                     display(DisplayStyle.Flex)
                     justifyContent(JustifyContent.Center)
-                    marginBottom(12.px) // reduce space
+                    marginBottom(12.px)
                 }
             }) {
                 Img(src = "images/appicon.png", attrs = {
                     classes(AppStylesheet.appIcon)
-
                 })
             }
 
@@ -78,7 +79,19 @@ fun DashboardPage(
                 Div({
                     classes(AppStylesheet.menuButton)
                     if (currentSection == section) classes(AppStylesheet.menuButtonSelected)
-                    onClick { currentSection = section }
+
+                    onClick {
+                        currentSection = section
+
+                        // Update AppPage + URL
+                        when (section) {
+                            "dashboard" -> { /* do nothing, already dashboard */ }
+                            "warehouse" -> onNavigateWarehouse()
+                            "reports" -> onNavigateReports()
+                            "settings" -> onNavigateSettings()
+                        }
+                    }
+
                     style {
                         padding(8.px, 12.px)
                         cursor("pointer")
@@ -87,8 +100,6 @@ fun DashboardPage(
                     }
                 }) { Text(label) }
             }
-
-
 
             // Logout button
             Button({
@@ -120,32 +131,47 @@ fun DashboardPage(
             AnimatedSection(
                 currentSection,
                 warehouseItems = warehouseItems,
-                onBackWarehouse = { currentSection = "dashboard" },
-                onBackReports = { currentSection = "dashboard" },
-                onBackSettings = { currentSection = "dashboard" }
+                onBackWarehouse = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard()
+                },
+                onBackReports = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard()
+                },
+                onBackSettings = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard()
+                },
+                onNavigateDashboard = onNavigateDashboard // <- pass it here
             )
+
+
         }
     }
 }
 
+
 @Composable
 fun AnimatedSection(
-    section: String,
+    initialSection: String,
     warehouseItems: List<WarehouseItem>,
     onBackWarehouse: () -> Unit,
     onBackReports: () -> Unit,
-    onBackSettings: () -> Unit
+    onBackSettings: () -> Unit,
+    onNavigateDashboard: () -> Unit
 ) {
+    var currentSection by remember { mutableStateOf(initialSection) }
+
     var visible by remember { mutableStateOf(false) }
     var isDashboardLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(1000) // simulate data fetching
+        delay(1000) // simulate data fetching
         isDashboardLoading = false
     }
 
-
-    LaunchedEffect(section, warehouseItems.size) {
+    LaunchedEffect(currentSection, warehouseItems.size) {
         visible = false
         delay(50)
         visible = true
@@ -157,14 +183,31 @@ fun AnimatedSection(
             property("transition", "all 0.3s ease")
         }
     }) {
-        when (section) {
+        when (currentSection) {
             "dashboard" -> DashboardMainContent(
                 warehouseItems,
-                isLoading =isDashboardLoading
+                isLoading = isDashboardLoading
             )
-            "warehouse" -> WarehousePage(onBack = onBackWarehouse, )
-            "reports" -> ReportsPage(onBack = onBackReports,)
-            "settings" -> SettingsPage(onLogout = onBackSettings, onBack = onBackSettings)
+            "warehouse" -> WarehousePage(
+                onBack = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard() // navigate + update URL
+                }
+            )
+            "reports" -> ReportsPage(
+                onBack = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard()
+                },
+                warehouseItems =warehouseItems
+            )
+            "settings" -> SettingsPage(
+                onBack = {
+                    currentSection = "dashboard"
+                    onNavigateDashboard()
+                },
+                onLogout = { window.location.replace(pageToUrl(AppPage.LOGIN)) }
+            )
         }
     }
 }

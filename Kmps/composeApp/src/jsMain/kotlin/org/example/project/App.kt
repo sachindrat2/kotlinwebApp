@@ -1,7 +1,7 @@
 import androidx.compose.runtime.*
-import org.example.dxteam.AboutPage
 import org.example.dxteam.ContactPage
 import org.example.dxteam.ProjectsPage
+import org.example.project.AboutPage
 import org.example.project.AppStylesheet
 import org.example.project.Footers
 import org.example.project.HomePage
